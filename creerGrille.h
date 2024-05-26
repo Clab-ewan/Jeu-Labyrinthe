@@ -16,6 +16,7 @@ typedef struct {
 typedef struct {
   int ligne;
   int col;
+  int cas; // défini si haut ou bas / gauche ou droite
 } MurCible;
 
 void clearInputBuffer();
@@ -27,8 +28,8 @@ void placerCibles(char **grille, int hauteur, int largeur, int CordCibles[][2],
 
 void placerRobots(char **grille, int hauteur, int largeur);
 
-void afficherGrille(char **grille, int hauteur, int largeur, int **MurRandH,
-                    int **MurRandV, MurCible murHCible[CIBLES], MurCible murVCible[CIBLES]);
+void afficherGrille(char **grille, int hauteur, int largeur, int *MurRandH,
+                    int *MurRandV, MurCible murHCible[CIBLES], MurCible murVCible[CIBLES]);
 
 int estPositionValide(char **grille, int hauteur, int largeur, int ligne,
                       int col);
