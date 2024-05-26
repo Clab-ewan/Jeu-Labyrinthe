@@ -13,25 +13,24 @@ typedef struct {
   int col;
 } MurInterdit;
 
+typedef struct {
+  int ligne;
+  int col;
+} MurCible;
+
 void clearInputBuffer();
 
 void initialiserGrille(char ***grille, int hauteur, int largeur);
 
 void placerCibles(char **grille, int hauteur, int largeur, int CordCibles[][2],
-                  int MurH_Cibles[][2], int MurV_Cibles[][2],
-                  MurInterdit **murInterdits, int *nombreMursInterdits);
+                  MurCible murHCible[CIBLES], MurCible murVCible[CIBLES]);
 
-void placerRobots(char **grille, int hauteur, int largeur,
-                  MurInterdit *murInterdits, int nombreMursInterdits);
+void placerRobots(char **grille, int hauteur, int largeur);
 
 void afficherGrille(char **grille, int hauteur, int largeur, int **MurRandH,
-                    int **MurRandV, int MurH_Cibles[CIBLES][2],
-                    int MurV_Cibles[CIBLES][2]);
+                    int **MurRandV, MurCible murHCible[CIBLES], MurCible murVCible[CIBLES]);
 
 int estPositionValide(char **grille, int hauteur, int largeur, int ligne,
                       int col);
-
-void murExterieur(int hauteur, int largeur, MurInterdit **murInterdits,
-                  int *nombreMursInterdits, int **MurRandH, int **MurRandV);
 
 #endif
