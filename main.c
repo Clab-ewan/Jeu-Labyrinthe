@@ -79,6 +79,7 @@ int main() {
   NombreJoueurs(&nb_joueur);// demande le nombre de joueurs
   int *pointsJoueurs = NULL; //initalise les points  
   Robot robot;
+  robot.tampon = ' ';
   Cible cible;
 
   pointsJoueurs = malloc(nb_joueur * sizeof(int));//Alloue de la mémoire pour stocker les points des joueurs et initialise ces points à zéro.
@@ -89,7 +90,6 @@ int main() {
   for (int i = 0; i < nb_joueur; i++) {
     pointsJoueurs[i] = 0;
   }
-  sauvegarderGrilleInitiale(grilleInitiale, grille, hauteur, largeur);
   printf("Début du jeu\n");
   for (int i = 0; i < 5; i++) { //Boucle principale du jeu qui itère sur 5 manches.
     printf("Manche %d\n", i + 1);
