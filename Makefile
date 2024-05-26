@@ -10,4 +10,4 @@ main.o : main.c interface.h creerGrille.h couleur.h
 	gcc -c main.c -o main.o
 
 exec : main.o interface.o creerGrille.o
-	gcc main.o interface.o creerGrille.o -o exec1
+	gcc main.o interface.o creerGrille.o -o exec
