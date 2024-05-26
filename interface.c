@@ -142,6 +142,16 @@ int choix_direction(int direction) {
   return direction;
 }
 
+ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
+                 int *MurRandV, MurCible *murHCible, MurCible *murVCible,
+                 char **grille, int hauteur, int largeur) {
+  int exligne = robot->ligne;
+  int excol = robot->col;
+  int obstacle = 0;
+  // Restaurer le caractère initial sur la grille à l'ancienne position du
+  // robot
+  grille[exligne][excol] = robot->tampon;
+
   switch (direction) {
   case 1: // Nord
     while (robot->ligne > 0) {
@@ -291,7 +301,6 @@ int choix_direction(int direction) {
   // Placer le signe du robot sur la nouvelle position
   grille[robot->ligne][robot->col] = robot->signe;
 }
-
 void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplacements, int nb_deplacements_effectues, int robotAtteintCible) {
 
     if (robotAtteintCible) { 
