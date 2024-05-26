@@ -5,13 +5,12 @@
 
 int main() {
 
-  MurInterdit *murInterdits = NULL;
   int largeur, hauteur;
   char **grille;
 
   int CordCibles[CIBLES][2];
-  int MurH_Cibles[CIBLES][2];
-  int MurV_Cibles[CIBLES][2];
+  MurCible murHCible[CIBLES];
+  MurCible murVCible[CIBLES];
   int nombreMursInterdits = 0;
 
   int *MurRandH = NULL;
@@ -47,80 +46,46 @@ int main() {
 
   initialiserGrille(&grille, hauteur, largeur);
 
-  placerCibles(grille, hauteur, largeur, CordCibles, MurH_Cibles, MurV_Cibles,
-               &murInterdits, &nombreMursInterdits);
-  placerRobots(grille, hauteur, largeur, murInterdits, nombreMursInterdits);
-
-  // Check for NULL pointers before dereferencing
-  if (murInterdits != NULL && MurRandH != NULL && MurRandV != NULL) {
-    murExterieur(hauteur, largeur, &murInterdits, &nombreMursInterdits,
-                 &MurRandH, &MurRandV);
-  } else {
-    // Handle NULL pointers error
-    printf("Error: One or more pointers are NULL.\n");
-  }
-
- // printf("Coordonnées des murs interdits :\n");
- // for (int i = 0; i < nombreMursInterdits; i++) {
- //   printf("Mur %d: Ligne %d, Col %d\n", i + 1, murInterdits[i].ligne,
- //          murInterdits[i].col);}
-  
-  afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, MurH_Cibles,
-     MurV_Cibles);
+  placerCibles(grille, hauteur, largeur, CordCibles, murHCible, murVCible);
+  placerRobots(grille, hauteur, largeur);
+  afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+                 murVCible);
   // début du jeu Z'ESSTTT PARTIIII !!!
-   int nb_joueur = 1;
-    int niveau_difficulte = 2;
-    int *nmbMouv = NULL;
-    int duree_chrono = 0;
-    int joueurActuel = 0;
-    int *pointsJoueurs;
-    NombreJoueurs(&nb_joueur);
-    Robot robot;
-    Cible cible;
+  int nb_joueur = 1;
+  int niveau_difficulte = 2;
+  int *nmbMouv = NULL;
+  int duree_chrono = 0;
+  int player = 0;
+  int direction;
+  NombreJoueurs(&nb_joueur);
+  Robot robot;
+  Cible cible;
+  printf("Début du jeu\n");
+  for (int i = 0; i < 5; i++) {
+    printf("Manche %d\n", i + 1);
+    choisirRobotCible(grille, hauteur, largeur, &robot, &cible);
+    // duree_chrono = choixdifficulte(niveau_difficulte);
+    afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+                   murVCible);
+    // chronometrer(duree_chrono);
+    choix_player(&nmbMouv, nb_joueur, grille, &robot, &cible, &player);
+    printf("Le joueur %d va faire %d mouvements\n", player + 1,
+           nmbMouv[player]);
+    for (int i = 0; i < nmbMouv[player]; i++) {
+      direction = choix_direction();
 
-    pointsJoueurs = malloc(nb_joueur * sizeof(int));
-    if (pointsJoueurs == NULL) {
-      printf("Erreur d'allocation mémoire\n");
-      exit(1);
+      deplacement(&robot, &cible, direction, MurRandH, MurRandV, murHCible,
+                  murVCible, grille, hauteur, largeur);
+      afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+                     murVCible);
     }
-    for (int i = 0; i < nb_joueur; i++) {
-      pointsJoueurs[i] = 0;
-    }
-    printf("Début du jeu\n");
-
-    for (int i = 0; i < 5; i++) { // Par exemple 5 manches
-      printf("Manche %d\n", i + 1);
-
-      ChoisirRobotCible(grille, hauteur, largeur, &robot, &cible);
-      duree_chrono = choixdifficulte(niveau_difficulte);
-      afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, MurH_Cibles, MurV_Cibles);
-      chronometrer(duree_chrono);
-
-      choix_joueur(&nmbMouv, nb_joueur, grille, &robot, &cible, &joueurActuel);
-      printf("Le joueur %d va faire %d mouvements\n", joueurActuel + 1, nmbMouv[joueurActuel]);
-
-      JoueurTour(grille, hauteur, largeur, &robot, &cible, murInterdits, nombreMursInterdits, nmbMouv, joueurActuel, pointsJoueurs, &MurRandH, &MurRandV, MurH_Cibles, MurV_Cibles);
-
-      // Afficher les points après chaque manche
-      printf("Points après la manche %d:\n", i + 1);
-      for (int j = 0; j < nb_joueur; j++) {
-        printf("Joueur %d: %d points\n", j + 1, pointsJoueurs[j]);
-      }
-    }
-
-
-   AfficherGagnant(pointsJoueurs, nb_joueur);
-
-
-    for (int i = 0; i < hauteur; i++) {
-      free(grille[i]);
-    }
-    free(grille);
-    free(murInterdits);
-    free(MurRandH);
-    free(MurRandV);
-    free(pointsJoueurs);
-    free(nmbMouv);
-
-    return 0;
   }
+  for (int i = 0; i < hauteur; i++) {
+    free(grille[i]);
+  }
+  free(grille);
+  free(MurRandH);
+  free(MurRandV);
+
+  return 0;
+}
