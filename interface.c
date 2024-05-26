@@ -151,27 +151,30 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
   switch (direction) {
   case 1: // Nord
     while (robot->ligne > 0) {
+      if (robot->ligne == MurRandH[0] && robot->col == 0 ||
+          robot->ligne == MurRandH[1] && robot->col == 0 ||
+          robot->ligne == MurRandH[2] && robot->col == largeur - 1 ||
+          robot->ligne == MurRandH[3] && robot->col == largeur - 1) {
+        obstacle = 1;
+        break;
+      }
       robot->ligne--;
       obstacle = 0;
-      for (int i = 0; i < 18; i++) {
-        if ((robot->ligne == murHCible[i].ligne &&
-             robot->col == murHCible[i].col) ||
-            (robot->ligne == murVCible[i].ligne &&
-             robot->col == murVCible[i].col)) {
+      for (int i = 0; i < CIBLES; i++) {
+        if (robot->ligne == murHCible[i].ligne &&
+            robot->col == murHCible[i].col) {
           obstacle = 1;
           break;
         }
       }
-      for (int i = 0; i < 4; i++) {
-        if ((robot->ligne == MurRandH[i] && robot->col == 0) ||
-          (robot->ligne == MurRandH[i] && robot->col == largeur - 1) ||
-            (robot->col == MurRandV[i] && robot->ligne == 0) ||
-          (robot->col == MurRandV[i] && robot->ligne == hauteur - 1)) {
-          obstacle = 1;
-          break;
-        }
+      if (robot->ligne == MurRandH[0] && robot->col == 0 ||
+          robot->ligne == MurRandH[1] && robot->col == 0 ||
+          robot->ligne == MurRandH[2] && robot->col == largeur - 1 ||
+          robot->ligne == MurRandH[3] && robot->col == largeur - 1) {
+        obstacle = 1;
+        break;
       }
-      if (obstacle)
+      if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
     break;
@@ -179,25 +182,22 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     while (robot->col < largeur - 1) {
       robot->col++;
       obstacle = 0;
-      for (int i = 0; i < 18; i++) {
-        if ((robot->ligne == murHCible[i].ligne &&
-             robot->col == murHCible[i].col) ||
-            (robot->ligne == murVCible[i].ligne &&
-             robot->col == murVCible[i].col)) {
+      for (int i = 0; i < CIBLES; i++) {
+        if (robot->ligne == (murVCible[i].ligne - 1) &&
+            robot->col == murVCible[i].col) {
           obstacle = 1;
           break;
         }
       }
-      for (int i = 0; i < 4; i++) {
-          if ((robot->ligne == MurRandH[i] && robot->col == 0) ||
-            (robot->ligne == MurRandH[i] && robot->col == largeur - 1) ||
-              (robot->col == MurRandV[i] && robot->ligne == 0) ||
-            (robot->col == MurRandV[i] && robot->ligne == hauteur - 1)) {
-          obstacle = 1;
-          break;
-        }
+      if (robot->ligne == 0 && robot->col == MurRandV[0] ||
+          robot->ligne == 0 && robot->col == MurRandV[1] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[2] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[3]) {
+        obstacle = 1;
+        robot->col--;
+        break;
       }
-      if (obstacle)
+      if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
     break;
@@ -205,51 +205,51 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     while (robot->ligne < hauteur - 1) {
       robot->ligne++;
       obstacle = 0;
-      for (int i = 0; i < 18; i++) {
-        if ((robot->ligne == murHCible[i].ligne &&
-             robot->col == murHCible[i].col) ||
-            (robot->ligne == murVCible[i].ligne &&
-             robot->col == murVCible[i].col)) {
+      for (int i = 0; i < CIBLES; i++) {
+        if (robot->ligne == (murHCible[i].ligne - 1) &&
+            robot->col == murHCible[i].col) {
           obstacle = 1;
           break;
         }
       }
-      for (int i = 0; i < 4; i++) {
-          if ((robot->ligne == MurRandH[i] - 1 && robot->col == 0) ||
-            (robot->ligne == MurRandH[i] - 1 && robot->col == largeur - 1) ||
-              (robot->col == MurRandV[i] && robot->ligne == 0) ||
-            (robot->col == MurRandV[i] && robot->ligne == hauteur - 1)) {
-          obstacle = 1;
-          break;
-        }
+      if (robot->ligne == MurRandH[0] && robot->col == 0 ||
+          robot->ligne == MurRandH[1] && robot->col == 0 ||
+          robot->ligne == MurRandH[2] && robot->col == largeur - 1 ||
+          robot->ligne == MurRandH[3] && robot->col == largeur - 1) {
+        obstacle = 1;
+        robot->ligne--;
+        break;
       }
-      if (obstacle)
+      if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
     break;
   case 4: // Ouest
     while (robot->col > 0) {
+      if (robot->ligne == 0 && robot->col == MurRandV[0] ||
+          robot->ligne == 0 && robot->col == MurRandV[1] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[2] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[3]) {
+        obstacle = 1;
+        break;
+      }
       robot->col--;
       obstacle = 0;
-      for (int i = 0; i < 18; i++) {
-        if ((robot->ligne == murHCible[i].ligne &&
-             robot->col == murHCible[i].col) ||
-            (robot->ligne == murVCible[i].ligne &&
-             robot->col == murVCible[i].col)) {
+      for (int i = 0; i < CIBLES; i++) {
+        if (robot->ligne == murVCible[i].ligne &&
+            robot->col == murVCible[i].col) {
           obstacle = 1;
           break;
         }
       }
-      for (int i = 0; i < 4; i++) {
-          if ((robot->ligne == MurRandH[i] && robot->col == 0) ||
-            (robot->ligne == MurRandH[i] && robot->col == largeur - 1) ||
-              (robot->col == MurRandV[i] + 1 && robot->ligne == 0) ||
-            (robot->col == MurRandV[i] + 1 && robot->ligne == hauteur - 1)) {
-          obstacle = 1;
-          break;
-        }
+      if (robot->ligne == 0 && robot->col == MurRandV[0] ||
+          robot->ligne == 0 && robot->col == MurRandV[1] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[2] ||
+          robot->ligne == hauteur - 1 && robot->col == MurRandV[3]) {
+        obstacle = 1;
+        break;
       }
-      if (obstacle)
+      if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
     break;
