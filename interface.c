@@ -144,7 +144,8 @@ int choix_direction(int direction) {
 
 void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
                  int *MurRandV, MurCible *murHCible, MurCible *murVCible,
-                 char **grille, int hauteur, int largeur) {
+                 char **grille, char **grilleInitiale, int hauteur, int largeur) {
+  
   int exligne = robot->ligne;
   int excol = robot->col;
   int obstacle = 0;
@@ -260,9 +261,11 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     printf("Erreur de déplacement\n");
     return;
   }
+// Mettre à jour la grille
+  grille[exligne][excol] = grilleInitiale[exligne][excol]; // Restaurer la position initiale
 
-  // Mettre à jour la grille
-  grille[exligne][excol] = ' '; // Vider l'ancienne position
+  
+  //grille[exligne][excol] = ' '; // Vider l'ancienne position
   grille[robot->ligne][robot->col] =
       robot->signe; // Mettre le robot à la nouvelle position
 }
@@ -286,15 +289,15 @@ void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplace
     }
 }
 
-void JoueurTour(char **grille, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs)
+void JoueurTour(char **grille,  char **grilleInitiale, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs)
 {
 
   int direction;
   int deplacementsEffectues = 0;
   int robotAtteintCible = 0;
   while (deplacementsEffectues < nmbMouv[joueurActuel]) {//tant que le joueur n'a pas atteint le nombre de mouvements prévus
-    direction = choix_direction(direction);//demande la direction 
-      deplacement(robot, cible, direction, MurRandH, MurRandV, murHCible, murVCible, grille, hauteur, largeur);//déplace le robot 
+    direction = choix_direction(direction);//demande la direction
+      deplacement(robot, cible, direction, MurRandH, MurRandV, murHCible, murVCible, grille, grilleInitiale ,hauteur, largeur);//déplace le robot 
       deplacementsEffectues++;//incrémente le nombre de déplacements effectués
 
     if (robot->ligne == cible->ligne && robot->col == cible->col) {
@@ -328,3 +331,12 @@ void AfficherGagnant(int *pointsJoueurs, int nb_joueurs) {
         printf("Le gagnant est le joueur %d avec %d points !\n", gagnant + 1, maxPoints);
     }
 }
+ 
+  
+  void sauvegarderGrilleInitiale(char **grilleInitiale, char **grille, int hauteur, int largeur) {
+      for (int i = 0; i < hauteur; i++) {
+          for (int j = 0; j < largeur; j++) {
+              grilleInitiale[i][j] = grille[i][j];
+          }
+      }
+  }
