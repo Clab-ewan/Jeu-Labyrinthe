@@ -59,32 +59,24 @@ void placerCibles(char **grille, int hauteur, int largeur, int CordCibles[][2],
       murHCible[num].col = col;
       murVCible[num].ligne = ligne;
       murVCible[num].col = col;
-      murHCible[num].cas = 0;
-      murVCible[num].cas = 0;
       break;
     case 1: // Haut Droite
       murHCible[num].ligne = ligne;
       murHCible[num].col = col;
       murVCible[num].ligne = ligne;
       murVCible[num].col = col + 1;
-      murHCible[num].cas = 0;
-      murVCible[num].cas = 1;
       break;
     case 2: // Bas Gauche
       murHCible[num].ligne = ligne + 1;
       murHCible[num].col = col;
       murVCible[num].ligne = ligne;
       murVCible[num].col = col;
-      murHCible[num].cas = 1;
-      murVCible[num].cas = 0;
       break;
     case 3: // Bas Droite
       murHCible[num].ligne = ligne + 1;
       murHCible[num].col = col;
       murVCible[num].ligne = ligne;
       murVCible[num].col = col + 1;
-      murHCible[num].cas = 1;
-      murVCible[num].cas = 1;
       break;
     default:
       printf("Erreur d'allocation MurCibles\n");
