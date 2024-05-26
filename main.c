@@ -26,8 +26,10 @@ int main() {
 
   for (int i = 0; i < 4; i++) {
     do {
-      MurRandH[i] = rand() % (hauteur - 2) + 1;
-      MurRandV[i] = rand() % (largeur - 2) + 1;
+      MurRandH[i] = rand() % (hauteur - 2) +
+                    1; 
+      MurRandV[i] = rand() % (largeur - 2) +
+                    1;
       int unique = 1;
       for (int j = 0; j < i; j++) {
         if (MurRandH[j] == MurRandH[i] || MurRandV[j] == MurRandV[i]) {
@@ -48,7 +50,7 @@ int main() {
 
   placerCibles(grille, hauteur, largeur, CordCibles, murHCible, murVCible);
   placerRobots(grille, hauteur, largeur);
-  afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+  afficherGrille(grille, hauteur, largeur, MurRandH, MurRandV, murHCible,
                  murVCible);
   // début du jeu Z'ESSTTT PARTIIII !!!
   int nb_joueur = 1;
@@ -65,7 +67,7 @@ int main() {
     printf("Manche %d\n", i + 1);
     choisirRobotCible(grille, hauteur, largeur, &robot, &cible);
     // duree_chrono = choixdifficulte(niveau_difficulte);
-    afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+    afficherGrille(grille, hauteur, largeur, MurRandH, MurRandV, murHCible,
                    murVCible);
     // chronometrer(duree_chrono);
     choix_player(&nmbMouv, nb_joueur, grille, &robot, &cible, &player);
@@ -73,10 +75,9 @@ int main() {
            nmbMouv[player]);
     for (int i = 0; i < nmbMouv[player]; i++) {
       direction = choix_direction();
-
       deplacement(&robot, &cible, direction, MurRandH, MurRandV, murHCible,
                   murVCible, grille, hauteur, largeur);
-      afficherGrille(grille, hauteur, largeur, &MurRandH, &MurRandV, murHCible,
+      afficherGrille(grille, hauteur, largeur, MurRandH, MurRandV, murHCible,
                      murVCible);
     }
   }
