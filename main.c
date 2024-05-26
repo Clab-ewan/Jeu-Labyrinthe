@@ -7,7 +7,7 @@ int main() {
 
   int largeur, hauteur; //initialise la largeur et la hauteur de la grille
   char **grille;// Déclare un pointeur vers un tableau à deux dimensions pour la grille du jeu
-
+  char **grilleInitiale;
 
   int CordCibles[CIBLES][2];
   MurCible murHCible[CIBLES]; // structure pour stcocker les murs formant des angles droit autour de la cible
@@ -21,6 +21,15 @@ int main() {
   hauteur = rand() % 6 + 15; // Génère un nombre entre 15 et 20
   largeur = rand() % 6 + 15; // Génère un nombre entre 15 et 20
   printf("Le tableau contient %d lignes et %d colonnes\n", hauteur, largeur);
+
+  grilleInitiale = (char **)malloc(hauteur * sizeof(char *));
+  if(grilleInitiale == NULL){
+    printf("Erreur d'allocation mémoire \n");
+    exit(1);
+  }
+  for (int i = 0; i < hauteur; i++) {
+      grilleInitiale[i] = (char *)malloc(largeur * sizeof(char*));
+  }
 
   MurRandH = (int *)malloc(4 * sizeof(int)); //Alloue la mémoire pour stocker les positions des 4 murs horizontaux
   if (MurRandH == NULL){
@@ -80,7 +89,7 @@ int main() {
   for (int i = 0; i < nb_joueur; i++) {
     pointsJoueurs[i] = 0;
   }
-  
+  sauvegarderGrilleInitiale(grilleInitiale, grille, hauteur, largeur);
   printf("Début du jeu\n");
   for (int i = 0; i < 5; i++) { //Boucle principale du jeu qui itère sur 5 manches.
     printf("Manche %d\n", i + 1);
@@ -91,7 +100,7 @@ int main() {
      chronometrer(duree_chrono);//active le chronomètre pendant lequel les joueurs réfléchissent à leur nombres de mouvements
     choix_player(&nmbMouv, nb_joueur, grille, &robot, &cible, &joueurActuel); //Choisit le joueur avec le moins de mouvements et lui demande de jouer.
     printf("Le joueur %d va faire %d mouvements\n", joueurActuel + 1, nmbMouv[joueurActuel]);
-     JoueurTour(grille,  hauteur,  largeur,  &robot,  &cible,  MurRandH,  MurRandV,  murHCible,  murVCible,  nmbMouv,  joueurActuel, pointsJoueurs);//tant que le nombre de mouvement n'est pas terminé, demande au joueur la direction et deplace le robot. Actualise le nombre de points 
+     JoueurTour(grille, grilleInitiale,  hauteur,  largeur,  &robot,  &cible,  MurRandH,  MurRandV,  murHCible,  murVCible,  nmbMouv,  joueurActuel, pointsJoueurs);//tant que le nombre de mouvement n'est pas terminé, demande au joueur la direction et deplace le robot. Actualise le nombre de points 
 
     // Afficher les points après chaque manche
     printf("Points après la manche %d:\n", i + 1);
@@ -104,12 +113,14 @@ int main() {
   
   for (int i = 0; i < hauteur; i++) {//libère la mémoire 
     free(grille[i]);
+    free(grilleInitiale[i]);
   }
   free(grille);
   free(MurRandH);
   free(MurRandV);
   free(pointsJoueurs);
   free(nmbMouv);
+  free(grilleInitiale);
   return 0;
 }
 
