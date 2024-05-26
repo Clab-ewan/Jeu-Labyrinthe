@@ -33,7 +33,12 @@ int MIN(int tab[], int taille);
 void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, char **grille, int hauteur, int largeur);
 
 int choix_direction();
+void JoueurTour(char **grille, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs);
 
+void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplacements, int nb_deplacements_effectues, int robotAtteintCible);
+
+void AfficherGagnant(int *pointsJoueurs, int nb_joueurs);
 #endif
+
 
 
