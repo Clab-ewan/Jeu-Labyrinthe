@@ -333,10 +333,4 @@ void AfficherGagnant(int *pointsJoueurs, int nb_joueurs) {
 }
  
   
-  void sauvegarderGrilleInitiale(char **grilleInitiale, char **grille, int hauteur, int largeur) {
-      for (int i = 0; i < hauteur; i++) {
-          for (int j = 0; j < largeur; j++) {
-              grilleInitiale[i][j] = grille[i][j];
-          }
-      }
-  }
+ 
