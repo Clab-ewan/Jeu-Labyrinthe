@@ -13,6 +13,7 @@ typedef struct {
   int ligne;
   int col;
   char signe;
+  char tampon;
 } Robot;
 
 typedef struct {
