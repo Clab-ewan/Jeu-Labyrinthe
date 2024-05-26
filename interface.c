@@ -144,12 +144,14 @@ int choix_direction(int direction) {
 
 void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
                  int *MurRandV, MurCible *murHCible, MurCible *murVCible,
-                 char **grille, char **grilleInitiale, int hauteur, int largeur) {
-  
+                 char **grille, int hauteur, int largeur) {
   int exligne = robot->ligne;
   int excol = robot->col;
   int obstacle = 0;
-
+  // Restaurer le caractère initial sur la grille à l'ancienne position du
+    // robot
+  grille[exligne][excol] = robot->tampon;
+  
   switch (direction) {
   case 1: // Nord
     while (robot->ligne > 0) {
@@ -163,7 +165,7 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
       robot->ligne--;
       obstacle = 0;
       for (int i = 0; i < CIBLES; i++) { // déplacement MurH vers le Nord
-        if (robot->ligne == murHCible[i].ligne && 
+        if (robot->ligne == murHCible[i].ligne &&
             robot->col == murHCible[i].col) {
           obstacle = 1;
           break;
@@ -184,8 +186,8 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     while (robot->col < largeur - 1) {
       robot->col++;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {    // déplacement pour murV vers l'Est
-        if (robot->ligne == murVCible[i].ligne && 
+      for (int i = 0; i < CIBLES; i++) { // déplacement pour murV vers l'Est
+        if (robot->ligne == murVCible[i].ligne &&
             robot->col == murVCible[i].col) {
           obstacle = 1;
           robot->col--;
@@ -209,7 +211,7 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
       robot->ligne++;
       obstacle = 0;
       for (int i = 0; i < CIBLES; i++) { // déplacement MurH vers le Sud
-        if (robot->ligne == murHCible[i].ligne && 
+        if (robot->ligne == murHCible[i].ligne &&
             robot->col == murHCible[i].col) {
           obstacle = 1;
           robot->ligne--;
@@ -239,8 +241,8 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
       }
       robot->col--;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {    // déplacement pour murV vers l'Ouest
-        if (robot->ligne == murVCible[i].ligne && 
+      for (int i = 0; i < CIBLES; i++) { // déplacement pour murV vers l'Ouest
+        if (robot->ligne == murVCible[i].ligne &&
             robot->col == murVCible[i].col) {
           obstacle = 1;
           break;
@@ -261,13 +263,11 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     printf("Erreur de déplacement\n");
     return;
   }
-// Mettre à jour la grille
-  grille[exligne][excol] = grilleInitiale[exligne][excol]; // Restaurer la position initiale
+  // Sauvegarder le nouveau caractère initial de la position où le robot arrive
+  robot->tampon = grille[robot->ligne][robot->col];
 
-  
-  //grille[exligne][excol] = ' '; // Vider l'ancienne position
-  grille[robot->ligne][robot->col] =
-      robot->signe; // Mettre le robot à la nouvelle position
+  // Placer le signe du robot sur la nouvelle position
+  grille[robot->ligne][robot->col] = robot->signe;
 }
 
 void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplacements, int nb_deplacements_effectues, int robotAtteintCible) {
