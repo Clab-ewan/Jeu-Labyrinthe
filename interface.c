@@ -289,7 +289,7 @@ void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplace
     }
 }
 
-void JoueurTour(char **grille,  char **grilleInitiale, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs)
+void JoueurTour(char **grille, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs)
 {
 
   int direction;
@@ -297,7 +297,7 @@ void JoueurTour(char **grille,  char **grilleInitiale, int hauteur, int largeur,
   int robotAtteintCible = 0;
   while (deplacementsEffectues < nmbMouv[joueurActuel]) {//tant que le joueur n'a pas atteint le nombre de mouvements prévus
     direction = choix_direction(direction);//demande la direction
-      deplacement(robot, cible, direction, MurRandH, MurRandV, murHCible, murVCible, grille, grilleInitiale ,hauteur, largeur);//déplace le robot 
+      deplacement(robot, cible, direction, MurRandH, MurRandV, murHCible, murVCible, grille,hauteur, largeur);//déplace le robot 
       deplacementsEffectues++;//incrémente le nombre de déplacements effectués
 
     if (robot->ligne == cible->ligne && robot->col == cible->col) {
