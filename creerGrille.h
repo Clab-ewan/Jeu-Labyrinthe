@@ -16,7 +16,6 @@ typedef struct {
 typedef struct {
   int ligne;
   int col;
-  int cas; // défini si haut ou bas / gauche ou droite
 } MurCible;
 
 void clearInputBuffer();
