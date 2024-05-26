@@ -28,13 +28,12 @@ void chronometrer(int duree_chrono);
 int choixdifficulte(int niveau_difficulte);
 void choix_player(int **nmbMouv, int m_bJoueur, char **grille, Robot *robot,
                   Cible *cible, int *player);
-int MIN(int My_array[], int len);
+int MIN(int tab[], int taille);
 
 void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, char **grille, int hauteur, int largeur);
 
 int choix_direction();
 
 #endif
-
 
 
