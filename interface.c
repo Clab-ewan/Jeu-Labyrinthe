@@ -142,16 +142,6 @@ int choix_direction(int direction) {
   return direction;
 }
 
-void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
-                 int *MurRandV, MurCible *murHCible, MurCible *murVCible,
-                 char **grille, int hauteur, int largeur) {
-  int exligne = robot->ligne;
-  int excol = robot->col;
-  int obstacle = 0;
-  // Restaurer le caractère initial sur la grille à l'ancienne position du
-    // robot
-  grille[exligne][excol] = robot->tampon;
-  
   switch (direction) {
   case 1: // Nord
     while (robot->ligne > 0) {
@@ -178,6 +168,14 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
         obstacle = 1;
         break;
       }
+      if (grille[robot->ligne][robot->col] == '1' ||
+          grille[robot->ligne][robot->col] == '2' ||
+          grille[robot->ligne][robot->col] == '3' ||
+          grille[robot->ligne][robot->col] == '4') {
+        obstacle = 1;
+        robot->ligne++;
+        break;
+      }
       if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
@@ -202,6 +200,14 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
         robot->col--;
         break;
       }
+      if (grille[robot->ligne][robot->col] == '1' ||
+          grille[robot->ligne][robot->col] == '2' ||
+          grille[robot->ligne][robot->col] == '3' ||
+          grille[robot->ligne][robot->col] == '4') {
+        obstacle = 1;
+        robot->col--;
+        break;
+      }
       if (obstacle || grille[robot->ligne][robot->col] != ' ')
         break;
     }
@@ -222,6 +228,14 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
           robot->ligne == MurRandH[1] && robot->col == 0 ||
           robot->ligne == MurRandH[2] && robot->col == largeur - 1 ||
           robot->ligne == MurRandH[3] && robot->col == largeur - 1) {
+        obstacle = 1;
+        robot->ligne--;
+        break;
+      }
+      if (grille[robot->ligne][robot->col] == '1' ||
+          grille[robot->ligne][robot->col] == '2' ||
+          grille[robot->ligne][robot->col] == '3' ||
+          grille[robot->ligne][robot->col] == '4') {
         obstacle = 1;
         robot->ligne--;
         break;
@@ -253,6 +267,14 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
           robot->ligne == hauteur - 1 && robot->col == MurRandV[2] ||
           robot->ligne == hauteur - 1 && robot->col == MurRandV[3]) {
         obstacle = 1;
+        break;
+      }
+      if (grille[robot->ligne][robot->col] == '1' ||
+          grille[robot->ligne][robot->col] == '2' ||
+          grille[robot->ligne][robot->col] == '3' ||
+          grille[robot->ligne][robot->col] == '4') {
+        obstacle = 1;
+        robot->col++;
         break;
       }
       if (obstacle || grille[robot->ligne][robot->col] != ' ')
