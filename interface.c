@@ -91,11 +91,12 @@ void chronometrer(int secondes) {
   clrscr();
   printf("Temps écoulé \n");
 }
-int MIN(int My_array[], int len) {
-  int num = My_array[0];
-  for (int i = 1; i < len; i++) {
-    if (My_array[i] < num) {
-      num = My_array[i];
+
+int MIN(int tab[], int taille) {
+  int num = tab[0];
+  for (int i = 1; i < taille; i++) {
+    if (tab[i] < num) {
+      num = tab[i];
     }
   }
   return num;
@@ -160,8 +161,8 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
       }
       robot->ligne--;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {
-        if (robot->ligne == murHCible[i].ligne &&
+      for (int i = 0; i < CIBLES; i++) { // déplacement MurH vers le Nord
+        if (robot->ligne == murHCible[i].ligne && 
             robot->col == murHCible[i].col) {
           obstacle = 1;
           break;
@@ -182,10 +183,11 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     while (robot->col < largeur - 1) {
       robot->col++;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {
-        if (robot->ligne == (murVCible[i].ligne - 1) &&
+      for (int i = 0; i < CIBLES; i++) {    // déplacement pour murV vers l'Est
+        if (robot->ligne == murVCible[i].ligne && 
             robot->col == murVCible[i].col) {
           obstacle = 1;
+          robot->col--;
           break;
         }
       }
@@ -205,10 +207,11 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
     while (robot->ligne < hauteur - 1) {
       robot->ligne++;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {
-        if (robot->ligne == (murHCible[i].ligne - 1) &&
+      for (int i = 0; i < CIBLES; i++) { // déplacement MurH vers le Sud
+        if (robot->ligne == murHCible[i].ligne && 
             robot->col == murHCible[i].col) {
           obstacle = 1;
+          robot->ligne--;
           break;
         }
       }
@@ -235,8 +238,8 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
       }
       robot->col--;
       obstacle = 0;
-      for (int i = 0; i < CIBLES; i++) {
-        if (robot->ligne == murVCible[i].ligne &&
+      for (int i = 0; i < CIBLES; i++) {    // déplacement pour murV vers l'Ouest
+        if (robot->ligne == murVCible[i].ligne && 
             robot->col == murVCible[i].col) {
           obstacle = 1;
           break;
