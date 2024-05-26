@@ -266,3 +266,65 @@ void deplacement(Robot *robot, Cible *cible, int direction, int *MurRandH,
   grille[robot->ligne][robot->col] =
       robot->signe; // Mettre le robot à la nouvelle position
 }
+
+void Points(int *pointsJoueurs, int nb_joueurs, int joueurActuel, int nb_deplacements, int nb_deplacements_effectues, int robotAtteintCible) {
+
+    if (robotAtteintCible) { 
+        if (nb_deplacements_effectues == nb_deplacements) {//si le joueur a atteint la cible avec le nombre de mouvements prévus
+            pointsJoueurs[joueurActuel] += 2;
+        } 
+        else if (nb_deplacements_effectues < nb_deplacements) {//si le joueur a atteint la cible avec moins de mouvements que prévus
+            pointsJoueurs[joueurActuel] -= 1;
+        }
+    } 
+    else {
+        for (int i = 0; i < nb_joueurs; i++) {//si le joueur n'atteint pas la cible avec le nombre de mouvements prévus
+            if (i != joueurActuel) {
+                pointsJoueurs[i] += 1;
+            }
+        }
+    }
+}
+
+void JoueurTour(char **grille, int hauteur, int largeur, Robot *robot, Cible *cible, int *MurRandH, int *MurRandV, MurCible *murHCible, MurCible *murVCible, int *nmbMouv, int joueurActuel, int *pointsJoueurs)
+{
+
+  int direction;
+  int deplacementsEffectues = 0;
+  int robotAtteintCible = 0;
+  while (deplacementsEffectues < nmbMouv[joueurActuel]) {//tant que le joueur n'a pas atteint le nombre de mouvements prévus
+    direction = choix_direction(direction);//demande la direction 
+      deplacement(robot, cible, direction, MurRandH, MurRandV, murHCible, murVCible, grille, hauteur, largeur);//déplace le robot 
+      deplacementsEffectues++;//incrémente le nombre de déplacements effectués
+
+    if (robot->ligne == cible->ligne && robot->col == cible->col) {
+      robotAtteintCible = 1;//si le robot a atteint la cible
+      break;
+    }
+       afficherGrille(grille, hauteur, largeur, MurRandH, MurRandV, murHCible, murVCible);
+  }
+
+  Points(pointsJoueurs, 4, joueurActuel, nmbMouv[joueurActuel], deplacementsEffectues, robotAtteintCible);//actualise le nombre de points
+  }
+
+void AfficherGagnant(int *pointsJoueurs, int nb_joueurs) {
+    int maxPoints = pointsJoueurs[0];
+    int gagnant = 0;
+    int egalite = 0;
+
+    for (int i = 1; i < nb_joueurs; i++) {
+        if (pointsJoueurs[i] > maxPoints) {
+            maxPoints = pointsJoueurs[i];
+            gagnant = i;
+            egalite = 0;
+        } else if (pointsJoueurs[i] == maxPoints) {
+            egalite = 1;
+        }
+    }
+
+    if (egalite) {
+        printf("Il y a une égalité entre plusieurs joueurs !\n");
+    } else {
+        printf("Le gagnant est le joueur %d avec %d points !\n", gagnant + 1, maxPoints);
+    }
+}
