@@ -1,0 +1,6 @@
+L'ensemble du code tourne principalement autour de la gestion d'une grille 2D, celle-ci est utilisé pour l'affichage et la gestion des coordonnées des éléments qui la composent.
+Elle est initialisé à l'aide d'un triple pointeur puis est affichée à l'aide de la fonction 'void affichergrille', les autres fonctions servent principalement à initialiser des valeurs ou enregistrer et changer des coordonnées.
+Pour ce qui est du jeu en lui-même, il est géré dans le fichier 'interface.c', on y demande la difficulté, le nombre de joueurs et c'est là qu'on gère les points, les manches, etc. La fonction principale du fichier
+et ainsi celle qui est la pièce maîtresse du jeu est 'void deplacement'. C'est elle qui prend en paramètre la direction saisie par le joueur et déplace en conséquence le robot. Elle est principalement composée d'un switch case qui dépend de la direction et s'assure ensuite, 
+que le robot peut bien avancer jusqu'à un obstacle. Le programme est facilement accessible puisqu'il ne demande aucunes commandes spécifiques. Il suffit de lancer le programme et de suivre les instructions du terminal.
+De même pour quelqu'un qui voudrait récupéré le code source, il ne serait pas compliqué de comprendre l'esprit du code puisque chaque variable et structure est plutôt explicite.
